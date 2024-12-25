@@ -3,11 +3,12 @@ import os
 from youtube_transcript_api import YouTubeTranscriptApi
 import re
 from fpdf import FPDF
+import io
 
 # Set base prompt for summarization
 base_prompt = """
 You are a YouTube video summarizer. Take the transcript text and summarize 
-the video as per the selected format. Format: {summary_format}.
+the video as per the selected format. Format: {summary_format} with the summary size{summary_length}.
 Please provide the summary of the text given here:
 """
 
@@ -67,7 +68,11 @@ summary_format = st.radio(
     options=["Bullet Points", "Sentences", "Paragraphs", "Report", "Essay", "Review"],
     index=2
 )
-
+summary_length = st.radio(
+    "Select the summary length in words:",
+    options=["100 ", "500", "800", "1000", "1500", "custom"],
+    index=3
+)
 # Extract video ID and display thumbnail
 video_id = None
 if youtube_link:
